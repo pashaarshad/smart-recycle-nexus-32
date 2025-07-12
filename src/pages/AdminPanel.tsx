@@ -4,6 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { useToast } from '@/hooks/use-toast';
+import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '@/components/ui/alert-dialog';
 import { CheckCircle, Clock, Users, Package, X } from 'lucide-react';
 
 interface PickupRequest {
@@ -231,23 +232,66 @@ const AdminPanel = () => {
                     </div>
                   </div>
                   <div className="flex gap-2">
-                    <Button 
-                      variant="default" 
-                      size="sm" 
-                      onClick={() => handleCompleteRequest(request.id)}
-                      className="bg-success text-white hover:bg-success/90"
-                    >
-                      <CheckCircle className="h-4 w-4 mr-2" />
-                      Accept & Complete
-                    </Button>
-                    <Button 
-                      variant="destructive" 
-                      size="sm" 
-                      onClick={() => handleRejectRequest(request.id)}
-                    >
-                      <X className="h-4 w-4 mr-2" />
-                      Reject
-                    </Button>
+                    <AlertDialog>
+                      <AlertDialogTrigger asChild>
+                        <Button 
+                          variant="default" 
+                          size="sm" 
+                          className="bg-success text-white hover:bg-success/90"
+                        >
+                          <CheckCircle className="h-4 w-4 mr-2" />
+                          Accept & Complete
+                        </Button>
+                      </AlertDialogTrigger>
+                      <AlertDialogContent>
+                        <AlertDialogHeader>
+                          <AlertDialogTitle>Accept Pickup Request</AlertDialogTitle>
+                          <AlertDialogDescription>
+                            Are you sure you want to accept and complete this pickup request for {request.userName}? 
+                            Points will be awarded to the user based on their waste types.
+                          </AlertDialogDescription>
+                        </AlertDialogHeader>
+                        <AlertDialogFooter>
+                          <AlertDialogCancel>Cancel</AlertDialogCancel>
+                          <AlertDialogAction 
+                            onClick={() => handleCompleteRequest(request.id)}
+                            className="bg-success hover:bg-success/90"
+                          >
+                            Accept & Complete
+                          </AlertDialogAction>
+                        </AlertDialogFooter>
+                      </AlertDialogContent>
+                    </AlertDialog>
+
+                    <AlertDialog>
+                      <AlertDialogTrigger asChild>
+                        <Button 
+                          variant="destructive" 
+                          size="sm"
+                        >
+                          <X className="h-4 w-4 mr-2" />
+                          Reject
+                        </Button>
+                      </AlertDialogTrigger>
+                      <AlertDialogContent>
+                        <AlertDialogHeader>
+                          <AlertDialogTitle>Reject Pickup Request</AlertDialogTitle>
+                          <AlertDialogDescription>
+                            Are you sure you want to reject this pickup request for {request.userName}? 
+                            This action cannot be undone and the request will be permanently removed.
+                          </AlertDialogDescription>
+                        </AlertDialogHeader>
+                        <AlertDialogFooter>
+                          <AlertDialogCancel>Cancel</AlertDialogCancel>
+                          <AlertDialogAction 
+                            onClick={() => handleRejectRequest(request.id)}
+                            className="bg-destructive hover:bg-destructive/90"
+                          >
+                            Reject Request
+                          </AlertDialogAction>
+                        </AlertDialogFooter>
+                      </AlertDialogContent>
+                    </AlertDialog>
                   </div>
                 </div>
               ))}
