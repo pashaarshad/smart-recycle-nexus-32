@@ -200,12 +200,11 @@ const RequestPickup = () => {
                     {wasteTypes.map((wasteType) => (
                       <div
                         key={wasteType.id}
-                        className={`p-4 border rounded-lg transition-all duration-300 cursor-pointer hover:shadow-soft ${
+                        className={`p-4 border rounded-lg transition-all duration-300 hover:shadow-soft ${
                           selectedWasteTypes.includes(wasteType.id)
                             ? 'border-primary bg-primary/5 shadow-eco'
                             : 'border-border hover:border-primary/50'
                         }`}
-                        onClick={() => handleWasteTypeChange(wasteType.id, !selectedWasteTypes.includes(wasteType.id))}
                       >
                         <div className="flex items-center space-x-3">
                           <Checkbox
