@@ -32,7 +32,7 @@ const defaultTestUsers = [
     address: '456 Test Avenue, Test City, TC 54321',
     password: 'TEST123',
     isAdmin: false,
-    points: 1250,
+    points: 10000,
     createdAt: new Date('2024-01-15'),
   },
 ];

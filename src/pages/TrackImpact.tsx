@@ -8,9 +8,9 @@ import { TreePine, Droplets, Globe, Recycle, Award, TrendingUp, Leaf, Target } f
 const TrackImpact = () => {
   const { user } = useAuth();
 
-  // Mock user impact data based on points
+  // Calculate user impact data based on points (now with 10000 test points)
   const userPoints = user?.points || 0;
-  const treesJaved = Math.floor(userPoints / 50);
+  const treesSaved = Math.floor(userPoints / 50);
   const waterSaved = Math.floor(userPoints * 2.5);
   const co2Reduced = Math.floor(userPoints * 1.8);
   const plasticRecycled = Math.floor(userPoints * 0.8);
@@ -34,7 +34,7 @@ const TrackImpact = () => {
   const impactMetrics = [
     {
       title: 'Trees Saved',
-      value: treesJaved,
+      value: treesSaved,
       icon: TreePine,
       color: 'success',
       description: 'Through paper recycling',
@@ -73,7 +73,7 @@ const TrackImpact = () => {
   const achievements = [
     { title: 'First Pickup', description: 'Completed your first waste pickup', achieved: userPoints > 0, points: 100 },
     { title: 'Eco Warrior', description: 'Recycled 5 different waste types', achieved: userPoints > 500, points: 500 },
-    { title: 'Tree Saver', description: 'Saved 10 trees through recycling', achieved: treesJaved >= 10, points: 1000 },
+    { title: 'Tree Saver', description: 'Saved 10 trees through recycling', achieved: treesSaved >= 10, points: 1000 },
     { title: 'Water Guardian', description: 'Conserved 1000L of water', achieved: waterSaved >= 1000, points: 1500 },
     { title: 'Carbon Fighter', description: 'Reduced 100kg of CO2', achieved: co2Reduced >= 100, points: 2000 },
     { title: 'Sustainability Champion', description: 'Reached 2000 points milestone', achieved: userPoints >= 2000, points: 2500 },
@@ -263,7 +263,7 @@ const TrackImpact = () => {
           <h2 className="text-3xl font-bold mb-4">Your Environmental Legacy 🌍</h2>
           <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-6">
             <div>
-              <div className="text-2xl font-bold">{treesJaved}</div>
+              <div className="text-2xl font-bold">{treesSaved}</div>
               <div className="text-sm opacity-90">Trees Saved</div>
             </div>
             <div>

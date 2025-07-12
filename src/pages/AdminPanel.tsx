@@ -4,7 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { useToast } from '@/hooks/use-toast';
-import { CheckCircle, Clock, Users, Package } from 'lucide-react';
+import { CheckCircle, Clock, Users, Package, X } from 'lucide-react';
 
 interface PickupRequest {
   id: string;
@@ -24,9 +24,67 @@ const AdminPanel = () => {
   const { toast } = useToast();
   const [requests, setRequests] = useState<PickupRequest[]>([]);
 
+  // Default test pickup requests
+  const defaultRequests: PickupRequest[] = [
+    {
+      id: 'req-001',
+      userId: 'test-user',
+      userName: 'Rajesh Kumar',
+      userEmail: 'rajesh@gmail.com',
+      userPhone: '+91 98765 43210',
+      userAddress: 'BTM Layout, 2nd Stage, Bangalore, Karnataka 560076',
+      date: '2024-01-20',
+      wasteTypes: ['Plastic Bottles', 'Paper/Cardboard', 'Metal Cans'],
+      status: 'pending',
+      createdAt: new Date('2024-01-18'),
+    },
+    {
+      id: 'req-002',
+      userId: 'test-user-2',
+      userName: 'Priya Sharma',
+      userEmail: 'priya@gmail.com',
+      userPhone: '+91 87654 32109',
+      userAddress: 'Koramangala, 5th Block, Bangalore, Karnataka 560095',
+      date: '2024-01-21',
+      wasteTypes: ['E-waste', 'Plastic Containers'],
+      status: 'pending',
+      createdAt: new Date('2024-01-19'),
+    },
+    {
+      id: 'req-003',
+      userId: 'test-user-3',
+      userName: 'Arun Patel',
+      userEmail: 'arun@gmail.com',
+      userPhone: '+91 76543 21098',
+      userAddress: 'Whitefield, EPIP Zone, Bangalore, Karnataka 560066',
+      date: '2024-01-22',
+      wasteTypes: ['Glass Bottles', 'Paper/Cardboard', 'Organic Waste'],
+      status: 'pending',
+      createdAt: new Date('2024-01-20'),
+    },
+    {
+      id: 'req-004',
+      userId: 'test-user-4',
+      userName: 'Lakshmi Devi',
+      userEmail: 'lakshmi@gmail.com',
+      userPhone: '+91 65432 10987',
+      userAddress: 'Indiranagar, 100 Feet Road, Bangalore, Karnataka 560038',
+      date: '2024-01-23',
+      wasteTypes: ['Mixed Plastic', 'Metal Cans'],
+      status: 'pending',
+      createdAt: new Date('2024-01-21'),
+    },
+  ];
+
   useEffect(() => {
     const storedRequests = JSON.parse(localStorage.getItem('pickupRequests') || '[]');
-    setRequests(storedRequests.map((r: any) => ({ ...r, createdAt: new Date(r.createdAt) })));
+    if (storedRequests.length === 0) {
+      // Add default test requests if none exist
+      localStorage.setItem('pickupRequests', JSON.stringify(defaultRequests));
+      setRequests(defaultRequests);
+    } else {
+      setRequests(storedRequests.map((r: any) => ({ ...r, createdAt: new Date(r.createdAt) })));
+    }
   }, []);
 
   const handleCompleteRequest = (requestId: string) => {
@@ -36,20 +94,47 @@ const AdminPanel = () => {
     setRequests(updatedRequests);
     localStorage.setItem('pickupRequests', JSON.stringify(updatedRequests));
     
-    // Award points to user (500 points as specified)
+    // Award random points between 300-800 based on waste types
     const completedRequest = requests.find(r => r.id === requestId);
     if (completedRequest) {
+      const pointsPerWasteType = {
+        'Plastic Bottles': Math.floor(Math.random() * 200) + 150, // 150-350
+        'Paper/Cardboard': Math.floor(Math.random() * 150) + 100, // 100-250
+        'Metal Cans': Math.floor(Math.random() * 250) + 200, // 200-450
+        'E-waste': Math.floor(Math.random() * 300) + 300, // 300-600
+        'Glass Bottles': Math.floor(Math.random() * 180) + 120, // 120-300
+        'Plastic Containers': Math.floor(Math.random() * 170) + 130, // 130-300
+        'Organic Waste': Math.floor(Math.random() * 100) + 80, // 80-180
+        'Mixed Plastic': Math.floor(Math.random() * 200) + 150, // 150-350
+      };
+      
+      const totalPoints = completedRequest.wasteTypes.reduce((total, wasteType) => {
+        return total + (pointsPerWasteType[wasteType as keyof typeof pointsPerWasteType] || 100);
+      }, 0);
+
       const users = JSON.parse(localStorage.getItem('registeredUsers') || '[]');
       const userIndex = users.findIndex((u: any) => u.id === completedRequest.userId);
       if (userIndex !== -1) {
-        users[userIndex].points = (users[userIndex].points || 0) + 500;
+        users[userIndex].points = (users[userIndex].points || 0) + totalPoints;
         localStorage.setItem('registeredUsers', JSON.stringify(users));
       }
-    }
 
+      toast({
+        title: "Request Accepted & Completed",
+        description: `Pickup completed successfully. User awarded ${totalPoints} points.`,
+      });
+    }
+  };
+
+  const handleRejectRequest = (requestId: string) => {
+    const updatedRequests = requests.filter(request => request.id !== requestId);
+    setRequests(updatedRequests);
+    localStorage.setItem('pickupRequests', JSON.stringify(updatedRequests));
+    
     toast({
-      title: "Request Completed",
-      description: "Pickup marked as completed. User awarded 500 points.",
+      title: "Request Rejected",
+      description: "Pickup request has been rejected and removed.",
+      variant: "destructive",
     });
   };
 
@@ -145,15 +230,25 @@ const AdminPanel = () => {
                       </div>
                     </div>
                   </div>
-                  <Button 
-                    variant="success" 
-                    size="sm" 
-                    onClick={() => handleCompleteRequest(request.id)}
-                    className="bg-success text-success-foreground hover:bg-success/90"
-                  >
-                    <CheckCircle className="h-4 w-4 mr-2" />
-                    Mark as Completed
-                  </Button>
+                  <div className="flex gap-2">
+                    <Button 
+                      variant="default" 
+                      size="sm" 
+                      onClick={() => handleCompleteRequest(request.id)}
+                      className="bg-success text-white hover:bg-success/90"
+                    >
+                      <CheckCircle className="h-4 w-4 mr-2" />
+                      Accept & Complete
+                    </Button>
+                    <Button 
+                      variant="destructive" 
+                      size="sm" 
+                      onClick={() => handleRejectRequest(request.id)}
+                    >
+                      <X className="h-4 w-4 mr-2" />
+                      Reject
+                    </Button>
+                  </div>
                 </div>
               ))}
             </div>
