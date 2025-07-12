@@ -1,0 +1,150 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Smart Recycle Design System - Sustainability Focused
+All colors MUST be HSL for optimal design system performance.
+*/
+
+@layer base {
+  :root {
+    /* Core sustainability color palette */
+    --background: 120 20% 98%;
+    --foreground: 140 25% 15%;
+
+    --card: 120 25% 99%;
+    --card-foreground: 140 25% 15%;
+
+    --popover: 120 25% 99%;
+    --popover-foreground: 140 25% 15%;
+
+    /* Primary green - main brand color */
+    --primary: 142 76% 36%;
+    --primary-foreground: 120 20% 98%;
+
+    /* Secondary green - lighter accent */
+    --secondary: 120 40% 94%;
+    --secondary-foreground: 142 76% 36%;
+
+    /* Muted greens for subtle backgrounds */
+    --muted: 120 30% 96%;
+    --muted-foreground: 140 20% 45%;
+
+    /* Accent - vibrant eco green */
+    --accent: 138 68% 42%;
+    --accent-foreground: 120 20% 98%;
+
+    /* Environmental alerts */
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 120 20% 98%;
+
+    /* Success state - bright green */
+    --success: 130 75% 45%;
+    --success-foreground: 120 20% 98%;
+
+    /* Warning state - amber */
+    --warning: 45 93% 58%;
+    --warning-foreground: 140 25% 15%;
+
+    /* Earth tone complement */
+    --earth: 30 40% 70%;
+    --earth-foreground: 140 25% 15%;
+
+    /* UI elements */
+    --border: 120 30% 88%;
+    --input: 120 25% 94%;
+    --ring: 142 76% 36%;
+
+    /* Gradients for impact */
+    --gradient-primary: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--accent)));
+    --gradient-eco: linear-gradient(135deg, hsl(var(--success)), hsl(var(--primary)));
+    --gradient-earth: linear-gradient(135deg, hsl(var(--earth)), hsl(var(--accent)));
+    --gradient-card: linear-gradient(145deg, hsl(var(--card)), hsl(var(--muted)));
+
+    /* Shadows with green tint */
+    --shadow-eco: 0 10px 30px -10px hsl(var(--primary) / 0.3);
+    --shadow-soft: 0 4px 20px -8px hsl(var(--primary) / 0.2);
+    --shadow-hover: 0 15px 40px -12px hsl(var(--accent) / 0.4);
+
+    /* Animations */
+    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-bounce: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+
+    --radius: 1rem;
+
+    --sidebar-background: 0 0% 98%;
+
+    --sidebar-foreground: 240 5.3% 26.1%;
+
+    --sidebar-primary: 240 5.9% 10%;
+
+    --sidebar-primary-foreground: 0 0% 98%;
+
+    --sidebar-accent: 240 4.8% 95.9%;
+
+    --sidebar-accent-foreground: 240 5.9% 10%;
+
+    --sidebar-border: 220 13% 91%;
+
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+
+  .dark {
+    /* Dark mode sustainability theme */
+    --background: 140 25% 8%;
+    --foreground: 120 20% 95%;
+
+    --card: 140 25% 10%;
+    --card-foreground: 120 20% 95%;
+
+    --popover: 140 25% 10%;
+    --popover-foreground: 120 20% 95%;
+
+    --primary: 142 76% 45%;
+    --primary-foreground: 140 25% 8%;
+
+    --secondary: 140 20% 15%;
+    --secondary-foreground: 120 20% 90%;
+
+    --muted: 140 20% 12%;
+    --muted-foreground: 120 15% 65%;
+
+    --accent: 138 68% 50%;
+    --accent-foreground: 140 25% 8%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 120 20% 95%;
+
+    --success: 130 75% 55%;
+    --success-foreground: 140 25% 8%;
+
+    --warning: 45 93% 68%;
+    --warning-foreground: 140 25% 8%;
+
+    --earth: 30 40% 60%;
+    --earth-foreground: 120 20% 95%;
+
+    --border: 140 20% 18%;
+    --input: 140 20% 15%;
+    --ring: 142 76% 45%;
+
+    --sidebar-background: 140 25% 8%;
+    --sidebar-foreground: 120 20% 90%;
+    --sidebar-primary: 142 76% 45%;
+    --sidebar-primary-foreground: 140 25% 8%;
+    --sidebar-accent: 140 20% 15%;
+    --sidebar-accent-foreground: 120 20% 90%;
+    --sidebar-border: 140 20% 18%;
+    --sidebar-ring: 142 76% 45%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+  }
+}
